@@ -1,0 +1,21 @@
+package ${poPackage};
+
+#foreach($ims in $importSets)
+${ims}
+#end
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Id;
+
+${classTitle}
+@Entity
+@Table(name = "${tableName}")
+public class ${upClassName}{
+
+#foreach($field in $fields)
+    ${field}
+#end
+#foreach($method in $methods)
+    ${method}
+#end
+}

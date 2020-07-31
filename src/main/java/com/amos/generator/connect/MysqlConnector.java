@@ -7,11 +7,6 @@ import java.util.*;
 
 public class MysqlConnector implements Connector {
 
-    private Properties properties;
-
-    public MysqlConnector(Properties properties) {
-        this.properties = properties;
-    }
 
     public Map<String, String> mapColumnNameType(String tableName) {
         Map<String, String> colMap = new LinkedHashMap<>();
@@ -220,10 +215,10 @@ public class MysqlConnector implements Connector {
     private Connection getConnection() {
         Connection connection;
         try {
-            String driverClassName = properties.getProperty("jdbc.driverClassName");
-            String url = properties.getProperty("jdbc.url");
-            String userName = properties.getProperty("jdbc.username");
-            String password = properties.getProperty("jdbc.password");
+            String driverClassName = PropertiesUtils.getString("jdbc.driverClassName");
+            String url = PropertiesUtils.getString("jdbc.url");
+            String userName = PropertiesUtils.getString("jdbc.username");
+            String password = PropertiesUtils.getString("jdbc.password");
             Class.forName(driverClassName);
             connection = DriverManager.getConnection(url, userName, password);
         } catch (Exception e) {

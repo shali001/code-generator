@@ -61,6 +61,15 @@ public class PropertiesUtils {
         }
     }
 
+   /* public static Object getObj(String key) {
+        Object obj = PropertiesUtils.properties.get(key);
+        return obj;
+    }*/
+
+    public static Properties getProperties() {
+        return PropertiesUtils.properties;
+    }
+
     public static String getString(String key) {
         String propertiesProperty = PropertiesUtils.properties.getProperty(key);
         if (StrUtil.isNotBlank(propertiesProperty)) {
