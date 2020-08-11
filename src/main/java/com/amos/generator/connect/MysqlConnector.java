@@ -45,6 +45,33 @@ public class MysqlConnector implements Connector {
             while (colRet.next()) {
                 String columnName = colRet.getString("COLUMN_NAME");
                 String columnRemark = colRet.getString("REMARKS");
+                String isNull=colRet.getString("IS_NULLABLE");
+                colMap.put(columnName, columnRemark);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (Exception e) {
+                }
+            }
+        }
+        return colMap;
+    }
+
+    @Override
+    public Map<String, String> mapNull(String tableName) {
+        Map<String, String> colMap = new LinkedHashMap<>();
+        Connection connection = null;
+        try {
+            connection = getConnection();
+            DatabaseMetaData meta = getDatabaseMetaData(connection);
+            ResultSet colRet = meta.getColumns(null, "%", tableName, "%");
+            while (colRet.next()) {
+                String columnName = colRet.getString("COLUMN_NAME");
+                String columnRemark = colRet.getString("IS_NULLABLE");
                 colMap.put(columnName, columnRemark);
             }
         } catch (Exception e) {

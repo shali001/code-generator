@@ -1,4 +1,4 @@
-package ${poPackage};
+package ${entityPackage};
 
 #foreach($ims in $importSets)
 ${ims}

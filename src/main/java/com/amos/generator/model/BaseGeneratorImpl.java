@@ -26,7 +26,7 @@ import java.util.*;
  */
 public class BaseGeneratorImpl implements Generator {
 
-    private static String LINE = System.getProperty("line.separator");
+    protected static String LINE = System.getProperty("line.separator");
     /**
      * velocity上下文
      */
@@ -203,8 +203,7 @@ public class BaseGeneratorImpl implements Generator {
                 .append(" * Created by ").append(authorName).append(" on ").append(dateFormat.format(new Date())).append(LINE)
                 .append(" */");
         velocityContext.put("classTitle", titleSb.toString());
-        velocityContext.put("domainSuffix", generatorContext.getAttribute("domainSuffix"));
-        velocityContext.put("queryDomainSuffix", generatorContext.getAttribute("queryDomainSuffix"));
+
     }
 
     /**
@@ -224,21 +223,18 @@ public class BaseGeneratorImpl implements Generator {
             String targetDir = packageConfigType.getTargetDir();
             String fileNameSuffix = packageConfigType.getFileNameSuffix();
             String template = packageConfigType.getTemplate();
-
-            String tempFileNameSuffix = fileNameSuffix.replace("{domainSuffix}", (CharSequence) properties.get("generator.domain.suffix"));
-            tempFileNameSuffix = tempFileNameSuffix.replace("{queryDomainSuffix}", (CharSequence) properties.get("generator.queryDomain.suffix"));
             String fileName;
             context.getAllPackageNamesMap().putAll(allPackageNameMap);
 
-            if (PackageConfigTypes.ConfigType.RESULT.equals(this.getPackageConfigTypes().getType()) ||
+      /*      if (PackageConfigTypes.ConfigType.RESULT.equals(this.getPackageConfigTypes().getType()) ||
                     PackageConfigTypes.ConfigType.MAPPER_CONFIG.equals(this.getPackageConfigTypes().getType())) {
                 fileName = GeneratorFileUtils.getPackageDirectory(targetDir)
                         + tempFileNameSuffix;
-            } else {
+            } else {*/
                 fileName = GeneratorFileUtils.getPackageDirectory(targetDir)
                         + GeneratorStringUtils.firstUpperAndNoPrefix(tableName)
-                        + tempFileNameSuffix;
-            }
+                        + fileNameSuffix;
+            //}
             generatorParams.put(template, fileName);
         }
         return generatorParams;
@@ -270,46 +266,8 @@ public class BaseGeneratorImpl implements Generator {
         }
     }
 
-    protected List<String> generateFields(Map<String, String> map, Map<String, String> columnRemarkMap,Map<String, String> keyMap) {
-        Set<String> keySet = map.keySet();
-        List<String> fields = new ArrayList();
-        for (String key : keySet) {
-            StringBuilder sb = new StringBuilder();
-            String value = map.get(key);
-            if (!StringUtils.isBlank(columnRemarkMap.get(key))) {
-                sb.append("/**").append(LINE);
-                sb.append("\t").append(" * ").append(columnRemarkMap.get(key).trim()).append(LINE);
-                sb.append("\t").append(" */").append(LINE);
-                sb.append("\t");
-            }
-            if(keyMap.get("primaryKey").equals(key)){
-                sb.append("@Id").append(LINE);
-                sb.append("\t");
-            }
-            sb.append("private ").append(value + " ").append(GeneratorStringUtils.format(key) + ";").append(LINE);
-            fields.add(sb.toString());
-        }
-        return fields;
-    }
 
 
-    protected List<String> generateGetAndSetMethods(Map<String, String> map) {
-        Set<String> keySet = map.keySet();
-        List<String> methods = new ArrayList();
-        for (String key : keySet) {
-            StringBuilder getSb = new StringBuilder();
-            StringBuilder setSb = new StringBuilder();
-            String field = GeneratorStringUtils.format(key);
-            String fieldType = map.get(key);
-            //generate get method
-            getSb.append("public ").append(fieldType + " ").append("get" + GeneratorStringUtils.firstUpperNoFormat(field) + "() {").append(LINE).append("\t\t")
-                    .append("return " + field + ";").append(LINE).append("\t}");
-            //generate set method
-            setSb.append("public ").append("void ").append("set" + GeneratorStringUtils.firstUpperNoFormat(field) + "(" + fieldType + " " + field + ") {").append(LINE).append("\t\t")
-                    .append("this." + field + " = " + field + ";").append(LINE).append("\t}");
-            methods.add(getSb.toString());
-            methods.add(setSb.toString());
-        }
-        return methods;
-    }
+
+
 }

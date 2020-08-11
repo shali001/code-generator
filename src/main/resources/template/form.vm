@@ -1,23 +1,23 @@
-package ${dtoPackage};
+package ${formPackage};
 
 #foreach($ims in $importSets)
 ${ims}
 #end
 
-
 ${classTitle}
-public class ${upClassName}Bean{
+public class ${upClassName}Form{
 
 #foreach($field in $fields)
     ${field}
 #end
 
-	public ${upClassName}Bean() {
-	}
-    public ${upClassName}Bean(${upClassName} info) {
+
+    public ${upClassName}  convertDO() {
+        ${upClassName} info=new ${upClassName}();
     #foreach($p in $converts)
        ${p}
     #end
+        return info;
 	}
 
 #foreach($method in $methods)

@@ -16,7 +16,7 @@ import java.util.*;
  * 功能描述：Model代码生成
  */
 @Component
-public class ModelGeneratorImpl extends BaseGeneratorImpl {
+public class BeanGeneratorImpl extends BaseGeneratorImpl {
 
     @Override
     public void initVelocityContext(VelocityContext velocityContext, GeneratorContext generatorContext) {
@@ -40,30 +40,48 @@ public class ModelGeneratorImpl extends BaseGeneratorImpl {
             }
         }
         velocityContext.put("methods", generateGetAndSetMethods(colMap));
-        velocityContext.put("fields", generateFields(colMap, columnRemarkMap, keyMap));
+        velocityContext.put("fields", generateFields(colMap, columnRemarkMap));
         velocityContext.put("importSets", importSets);
+        List<String> list = getConvertContent(keySet);
+        velocityContext.put("do2dto", list);
+
     }
 
     @Override
     public PackageConfigTypes getPackageConfigTypes() {
         if (super.getPackageConfigTypes() == null || super.getPackageConfigTypes().getType() == null) {
             Set<PackageConfigType> packageConfigTypeSet = new HashSet();
-            packageConfigTypeSet.add(new PackageConfigType("entityPackage", "/entity", ".java", "entity.vm"));
+            packageConfigTypeSet.add(new PackageConfigType("dtoPackage", "/dto", "Bean.java", "dto.vm"));
             PackageConfigTypes packageConfigTypes = new PackageConfigTypes();
             packageConfigTypes.setPackageConfigTypeSet(packageConfigTypeSet);
-            packageConfigTypes.setType(PackageConfigTypes.ConfigType.ENTITY);
+            packageConfigTypes.setType(PackageConfigTypes.ConfigType.DTO);
             setPackageConfigTypes(packageConfigTypes);
         }
         return super.getPackageConfigTypes();
     }
 
     /**
-     * 组织属性
+     * 组织实体类属性转换为bean属性
      *
      * @author meng_lbo
-     * @date 2020/8/11  14:13
+     * @date 2020/8/11  14:09
      */
-    protected List<String> generateFields(Map<String, String> map, Map<String, String> columnRemarkMap, Map<String, String> keyMap) {
+    private List<String> getConvertContent(Set<String> keySet) {
+        List<String> list = new ArrayList<>();
+        for (String key : keySet) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("this." + GeneratorStringUtils.format(key) + " = info.get" + GeneratorStringUtils.firstUpper(key) + "()");
+            list.add(sb.toString());
+        }
+        return list;
+    }
+
+    /**
+     * 组织属性
+     * @author meng_lbo
+     * @date 2020/8/11  14:12
+     */
+    protected List<String> generateFields(Map<String, String> map, Map<String, String> columnRemarkMap) {
         Set<String> keySet = map.keySet();
         List<String> fields = new ArrayList();
         for (String key : keySet) {
@@ -75,12 +93,6 @@ public class ModelGeneratorImpl extends BaseGeneratorImpl {
                 sb.append("\t").append(" */").append(LINE);
                 sb.append("\t");
             }
-
-            if (keyMap.get("primaryKey").equals(key)) {
-                sb.append("@Id").append(LINE);
-                sb.append("\t");
-            }
-
             sb.append("private ").append(value + " ").append(GeneratorStringUtils.format(key) + ";").append(LINE);
             fields.add(sb.toString());
         }
@@ -112,4 +124,6 @@ public class ModelGeneratorImpl extends BaseGeneratorImpl {
         }
         return methods;
     }
+
+
 }

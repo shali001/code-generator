@@ -104,9 +104,13 @@ public class DefaultGeneratorStarter implements GeneratorStarter {
                     packageConfigTypesSet.add(generator.getPackageConfigTypes());
                 }
             }
-            GeneratorFileUtils.createPackageDirectory(packageConfigTypesSet); // 创建目录
-
-            Map<String, String> typeAliasesMap = GeneratorFileUtils.getAllTypeAliasesMap(tableName, packageConfigTypesSet4PKN);
+            String on_off = PropertiesUtils.getString("generator.default.package.on_off");
+            if(on_off.equals("true")){
+                GeneratorFileUtils.createDefaultPackageDirectory(packageConfigTypesSet);
+            }else{
+                GeneratorFileUtils.createPackageDirectory(packageConfigTypesSet); // 创建目录
+            }
+          /*  Map<String, String> typeAliasesMap = GeneratorFileUtils.getAllTypeAliasesMap(tableName, packageConfigTypesSet4PKN);
             for (Map.Entry<String, String> entry : typeAliasesMap.entrySet()) {
                 LOGGER.info("*********************MapperConfigTypeAlias[key:" + entry.getKey() + ",type:" + entry.getValue() + "]");
             }
@@ -115,7 +119,7 @@ public class DefaultGeneratorStarter implements GeneratorStarter {
                 LOGGER.info("*********************MapperConfigMappers[key:" + entry.getKey() + ",resource:" + entry.getValue() + "]");
             }
             allTypeAliasesMap.putAll(typeAliasesMap);
-            allMappersMap.putAll(mappersMap);
+            allMappersMap.putAll(mappersMap);*/
 
             for (Generator generator : generatorSet) {
                 if (packageConfigTypesSet.contains(generator.getPackageConfigTypes())) {
@@ -169,8 +173,6 @@ public class DefaultGeneratorStarter implements GeneratorStarter {
         generatorContext.addAttribute("properties", PropertiesUtils.getProperties());
         generatorContext.addAttribute("columnPrimaryKey", columnPrimaryKey);
         generatorContext.addAttribute("normalPrimaryKey", normalPrimaryKey);
-        generatorContext.addAttribute("domainSuffix", PropertiesUtils.getString("generator.domain.suffix"));
-        generatorContext.addAttribute("queryDomainSuffix", PropertiesUtils.getString("generator.queryDomain.suffix"));
         generatorContext.addAttribute("typeAliases", allTypeAliasesMap);
         generatorContext.addAttribute("mappers", allMappersMap);
         return generatorContext;
