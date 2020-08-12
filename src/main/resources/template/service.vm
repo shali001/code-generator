@@ -1,0 +1,76 @@
+package ${servicePackage};
+
+import ${entityPackage}.${upClassName};
+import com.github.pagehelper.PageInfo;
+import ${dtoPackage}.${upClassName}Bean;
+import ${formPackage}.${upClassName}Form;
+
+import com.hongen.base.service.BaseService;
+import com.hongen.base.exception.service.ServiceExceptionHandler;
+
+${classTitle}
+public interface ${upClassName}Service extends BaseService<${upClassName}, String> {
+
+  /**
+     * ${upClassName}添加
+     *
+     * @author ${author}
+     * @date ${date}
+     * @param userId
+     * @param form
+     */
+    void insert(String userId, ${upClassName}Form form);
+
+    /**
+     * ${upClassName}修改
+     *
+     * @author ${author}
+     * @date ${date}
+     * @param id
+     * @param userId
+     * @param form
+     */
+    void update(String id,String userId, ActivityForm form);
+
+    /**
+     * ${upClassName}状态设置
+     *
+     * @author ${author}
+     * @date ${date}
+     * @param id
+     * @param state
+     * @param userId
+     */
+    void state(String id, String state, String userId);
+
+    /**
+     * ${upClassName}删除
+     *
+     * @author ${author}
+     * @date ${date}
+     * @param id
+     */
+    void delete(String id);
+
+    /**
+     * ${upClassName}列表
+     *
+     * @author ${author}
+     * @date ${date}
+     * @param pageNum
+     * @param pageSize
+     * @param state
+     * @param name
+     */
+    PageInfo<${upClassName}Bean> select${upClassName}Page(int pageNum, int pageSize, String state, String name);
+
+    /**
+     * ${upClassName}详情
+     *
+     * @author ${author}
+     * @date ${date}
+     * @param id
+     */
+    ${upClassName}Bean select${upClassName}Detail(String id);
+
+}

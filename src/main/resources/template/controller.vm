@@ -1,0 +1,124 @@
+package ${controllerPackage};
+
+import ${dtoPackage}.${upClassName}Bean;
+import ${formPackage}.${upClassName}Form;
+import ${servicePackage}.${upClassName}Service;
+
+import com.hongen.admin.enums.ResultEnums;
+import com.hongen.base.bean.Result;
+import com.hongen.base.exception.BusinessException;
+import com.hongen.base.exception.controller.ControllerExceptionHandler;
+import com.hongen.base.tool.ResultUtil;
+
+import com.github.pagehelper.PageInfo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+
+${classTitle}
+@RestController
+@RequestMapping("/${lowClassName}")
+public class ${upClassName}Controller extends AbstractController {
+    // 注入Service
+    @Autowired
+    private ${upClassName}Service ${lowClassName}Service;
+
+
+    /**
+     * 新增${upClassName}
+     *
+     * @author ${author}
+     * @date ${date}
+     */
+    @PostMapping("/v1/info")
+    @ControllerExceptionHandler
+    public Result<String> insert(@Valid ${upClassName}Form form, BindingResult bindingResult, HttpServletRequest request) {
+        // 表单验证
+        if (bindingResult.hasErrors()) {
+            // 错误信息包装成业务异常抛出
+            throw new BusinessException(ResultEnums.FAILED.getCode(), bindingResult.getFieldError().getDefaultMessage());
+        }
+        String userId = getUserId(request);
+        ${lowClassName}Service.insert(userId, form);
+        return ResultUtil.success(ResultEnums.SUCC_ADD);
+    }
+
+    /**
+     * 修改${upClassName}
+     *
+     * @author ${author}
+     * @date ${date}
+     */
+    @PutMapping("/v1/info/{id}")
+    @ControllerExceptionHandler
+    public Result<String> update(@@PathVariable("id") String id,${upClassName}Form form, HttpServletRequest request) {
+        String userId = getUserId(request);
+        ${lowClassName}Service.update(id,userId, form);
+        return ResultUtil.success(ResultEnums.SUCC_UPDATE);
+    }
+
+    /**
+     * 修改${upClassName}状态
+     *
+     * @author ${author}
+     * @date ${date}
+     */
+    @PutMapping("/v1/info/state/{id}")
+    @ControllerExceptionHandler
+    public Result<String> updateState(@PathVariable("id") String id, @RequestParam String state, HttpServletRequest request) {
+        String userId = getUserId(request);
+        ${lowClassName}Service.state(id, state, userId);
+        return ResultUtil.success(ResultEnums.SUCC_UPDATE);
+    }
+
+    /**
+     * 删除${upClassName}
+     *
+     * @author ${author}
+     * @date ${date}
+     */
+    @DeleteMapping("/v1/info/{id}")
+    @ControllerExceptionHandler
+    public Result<String> delete(@PathVariable("id") String id) {
+        ${lowClassName}Service.delete(id);
+        return ResultUtil.success(ResultEnums.SUCC_DELETE);
+    }
+
+    /**
+     * 分页查询${upClassName}
+     *
+     * @author ${author}
+     * @date ${date}
+     */
+    @GetMapping("/v1/info/{pageSize}/{pageNum}")
+    @ControllerExceptionHandler
+    public Result<PageInfo<${upClassName}Bean>> select${upClassName}Page(
+            @PathVariable("pageSize") int pageSize,
+            @PathVariable("pageNum") int pageNum,
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String state) {
+        // 查询
+        PageInfo<${upClassName}Bean> pages = ${lowClassName}Service.select${upClassName}Page(pageNum, pageSize, state, name);
+        // 返回查询结果
+        return ResultUtil.success(pages);
+    }
+
+    /**
+     * ${upClassName}详情
+     *
+     * @author ${author}
+     * @date ${date}
+     */
+    @GetMapping("/v1/info/{id}")
+    @ControllerExceptionHandler
+    public Result<${upClassName}Bean> select${upClassName}Detail(
+            @PathVariable String id
+    ) {
+        // 查询
+        ${upClassName}Bean ${lowClassName}Bean = ${lowClassName}Service.select${upClassName}Detail(id);
+        // 返回查询结果
+        return ResultUtil.success(${lowClassName}Bean);
+    }
+}

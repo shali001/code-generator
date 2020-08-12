@@ -35,7 +35,7 @@ public class PackageConfigTypes {
     }
 
     public enum ConfigType {
-        ENTITY("entity"), DTO("dto"), MAPPER("mapper"), FORM("form");
+        ENTITY("entity"), DTO("dto"),CONTROLLER("controller"), MAPPER("mapper"), FORM("form"), DAO("dao"), SERVICE("service"), SERVICE_IMPL("service_impl");
         public String key;
 
         ConfigType(String key) {

@@ -1,0 +1,15 @@
+package ${daoPackage};
+
+import java.util.List;
+
+import ${entityPackage}.${upClassName};
+import org.apache.ibatis.annotations.Mapper;
+import com.hongen.base.dao.BaseDao;
+
+
+${classTitle}
+@Mapper
+public interface ${upClassName}Dao extends BaseDao<${upClassName}>{
+
+
+}

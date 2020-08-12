@@ -225,16 +225,9 @@ public class BaseGeneratorImpl implements Generator {
             String template = packageConfigType.getTemplate();
             String fileName;
             context.getAllPackageNamesMap().putAll(allPackageNameMap);
-
-      /*      if (PackageConfigTypes.ConfigType.RESULT.equals(this.getPackageConfigTypes().getType()) ||
-                    PackageConfigTypes.ConfigType.MAPPER_CONFIG.equals(this.getPackageConfigTypes().getType())) {
-                fileName = GeneratorFileUtils.getPackageDirectory(targetDir)
-                        + tempFileNameSuffix;
-            } else {*/
-                fileName = GeneratorFileUtils.getPackageDirectory(targetDir)
-                        + GeneratorStringUtils.firstUpperAndNoPrefix(tableName)
-                        + fileNameSuffix;
-            //}
+            fileName = GeneratorFileUtils.getPackageDirectory(targetDir)
+                    + GeneratorStringUtils.firstUpperAndNoPrefix(tableName)
+                    + fileNameSuffix;
             generatorParams.put(template, fileName);
         }
         return generatorParams;
@@ -265,9 +258,6 @@ public class BaseGeneratorImpl implements Generator {
             throw new RuntimeException("read velocity templates error, e", e);
         }
     }
-
-
-
 
 
 }

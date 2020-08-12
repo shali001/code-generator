@@ -1,0 +1,100 @@
+package ${serviceImplPackage};
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import ${entityPackage}.${upClassName};
+import ${dtoPackage}.${upClassName}Bean;
+import ${formPackage}.${upClassName}Form;
+import ${servicePackage}.${upClassName}Service;
+
+import com.github.pagehelper.PageInfo;
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.hongen.base.service.BaseServiceImpl;
+import com.hongen.base.exception.BusinessException;
+import com.hongen.base.exception.ResultEnums;
+import com.hongen.base.tool.ConvertUtils;
+import com.hongen.base.exception.service.ServiceExceptionHandler;
+${classTitle}
+@Service
+public class ${upClassName}ServiceImpl extends BaseServiceImpl<${upClassName}, String> implements ${upClassName}Service {
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
+
+
+    @Override
+    @Transactional
+    @ServiceExceptionHandler
+    public void insert(String userId, ${upClassName}Form form) {
+        ${upClassName} ${lowClassName} = form.convertDO();
+        String id=IdUtil.simpleUUID();
+        ${lowClassName}.setId(id);
+        ${lowClassName}.setCreateUser(userId);
+        ${lowClassName}.setUpdateUser(userId);
+        insertSelective(${lowClassName});
+        //图片处理
+
+
+    }
+
+    @Override
+    @Transactional
+    @ServiceExceptionHandler
+    public void update(String id,String userId, ${upClassName}Form form) {
+        ${upClassName} old = selectByPrimaryKey(id);
+        if (old == null) {
+            throw new BusinessException(ResultEnums.OBJECT_NOT_EXISTS);
+        }
+        ${upClassName} ${lowClassName} = form.convertDO();
+        ${lowClassName}.setId(id);
+        ${lowClassName}.setUpdateUser(userId);
+        updateByPrimaryKeySelective(${lowClassName});
+        //图片处理
+    }
+
+    @Override
+    @Transactional
+    @ServiceExceptionHandler
+    public void state(String id, String state, String userId) {
+        ${upClassName} ${lowClassName} = new ${upClassName}();
+        ${lowClassName}.setId(id);
+        ${lowClassName}.setState(state);
+        ${lowClassName}.setUpdateUser(userId);
+        updateByPrimaryKeySelective(${lowClassName});
+    }
+
+    @Override
+    @Transactional
+    @ServiceExceptionHandler
+    public void delete(String id) {
+       ${upClassName} old = selectByPrimaryKey(id);
+       deleteByPrimaryKey(id);
+        //图片删除
+
+    }
+
+    @Override
+    @ServiceExceptionHandler
+    public PageInfo<${upClassName}Bean> select${upClassName}Page(int pageNum, int pageSize, String state, String name) {
+        ${upClassName} ec = new ${upClassName}();
+        ec.setState(state);
+        ${upClassName} lc = new ${upClassName}();
+        lc.setName(name);
+        PageInfo<${upClassName}> pages = selectByPage(ec, lc, pageSize, pageNum, "create_time ", true);
+        PageInfo<${upClassName}Bean> pageInfo = new ConvertUtils().convertPage(pages,${upClassName}Bean::new );
+        return pageInfo;
+    }
+
+    @Override
+    @ServiceExceptionHandler
+    public ${upClassName}Bean select${upClassName}Detail(String id) {
+        ${upClassName} ${lowClassName} = selectByPrimaryKey(id);
+        if (${lowClassName} == null) {
+            throw new BusinessException(ResultEnums.OBJECT_NOT_EXISTS);
+        }
+        ${upClassName}Bean ${lowClassName}Bean = new ${upClassName}Bean(${lowClassName});
+        return ${lowClassName}Bean;
+    }
+}
