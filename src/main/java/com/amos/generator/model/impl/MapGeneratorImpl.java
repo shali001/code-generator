@@ -25,7 +25,7 @@ public class MapGeneratorImpl extends BaseGeneratorImpl {
     public PackageConfigTypes getPackageConfigTypes() {
         if (super.getPackageConfigTypes() == null || super.getPackageConfigTypes().getType() == null) {
             Set<PackageConfigType> packageConfigTypeSet = new HashSet();
-            packageConfigTypeSet.add(new PackageConfigType("mapperPackage", "/dao", "Mapper.xml", "mapper.vm"));
+            packageConfigTypeSet.add(new PackageConfigType("mapperPackage", "/mapper", "Mapper.xml", "mapper.vm"));
             PackageConfigTypes packageConfigTypes = new PackageConfigTypes();
             packageConfigTypes.setPackageConfigTypeSet(packageConfigTypeSet);
             packageConfigTypes.setType(PackageConfigTypes.ConfigType.MAPPER);

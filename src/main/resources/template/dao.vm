@@ -1,10 +1,9 @@
 package ${daoPackage};
 
-import java.util.List;
 
-import ${entityPackage}.${upClassName};
 import org.apache.ibatis.annotations.Mapper;
-import com.hongen.base.dao.BaseDao;
+import ${basePackageName_base}.dao.BaseDao;
+import ${basePackageName_base}.entity.${upClassName};
 
 
 ${classTitle}

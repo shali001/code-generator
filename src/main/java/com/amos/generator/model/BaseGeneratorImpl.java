@@ -6,6 +6,7 @@ import com.amos.generator.starter.PackageConfigTypes;
 import com.amos.generator.util.FileUtil;
 import com.amos.generator.util.GeneratorFileUtils;
 import com.amos.generator.util.GeneratorStringUtils;
+import com.amos.generator.util.PropertiesUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -180,10 +181,11 @@ public class BaseGeneratorImpl implements Generator {
      * @return
      */
     public void initVelocityContext(VelocityContext velocityContext, GeneratorContext generatorContext) {
+        velocityContext.put("basePackageName_base", PropertiesUtils.getString("generator.basePackage.base"));
         velocityContext.put("tableName", generatorContext.getTableName());
         velocityContext.put("upClassName", generatorContext.getUpClassName());
         velocityContext.put("lowClassName", generatorContext.getLowClassName());
-        velocityContext.put("basePackageName", generatorContext.getBasePackageName());
+        velocityContext.put("basePackageName", PropertiesUtils.getString("generator.basePackage"));
         velocityContext.put("primaryKeyType", generatorContext.getPrimaryKeyType());
         velocityContext.put("primaryKey", generatorContext.getPrimaryKey());
         velocityContext.put("normalPrimaryKey", generatorContext.getAttribute("normalPrimaryKey"));

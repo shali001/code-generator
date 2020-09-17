@@ -3,7 +3,7 @@ package ${dtoPackage};
 #foreach($ims in $importSets)
 ${ims}
 #end
-
+import ${basePackageName_base}.entity.${upClassName};
 
 ${classTitle}
 public class ${upClassName}Bean{
@@ -16,7 +16,7 @@ public class ${upClassName}Bean{
 	}
     public ${upClassName}Bean(${upClassName} info) {
     #foreach($p in $converts)
-       ${p}
+       ${p};
     #end
 	}
 

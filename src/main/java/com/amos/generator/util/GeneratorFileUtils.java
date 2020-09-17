@@ -98,6 +98,9 @@ public class GeneratorFileUtils {
         Map<String, String> packageNameMap = new HashMap<>();
         for (PackageConfigTypes packageConfigTypes : packageConfigTypesSet) {
             for (PackageConfigType packageConfigType : packageConfigTypes.getPackageConfigTypeSet()) {
+                if(packageConfigType.getAliasType().equals("entityPackage")){
+                    basePackage = PropertiesUtils.getString("generator.basePackage");
+                }
                 String targetDir = packageConfigType.getTargetDir();
                 StringBuilder packageNameStrb = new StringBuilder();
                 packageNameStrb.append(basePackage);

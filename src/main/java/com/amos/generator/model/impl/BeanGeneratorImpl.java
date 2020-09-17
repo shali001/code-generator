@@ -43,7 +43,7 @@ public class BeanGeneratorImpl extends BaseGeneratorImpl {
         velocityContext.put("fields", generateFields(colMap, columnRemarkMap));
         velocityContext.put("importSets", importSets);
         List<String> list = getConvertContent(keySet);
-        velocityContext.put("do2dto", list);
+        velocityContext.put("converts", list);
 
     }
 

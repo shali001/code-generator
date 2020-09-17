@@ -1,12 +1,12 @@
 package ${servicePackage};
 
-import ${entityPackage}.${upClassName};
-import com.github.pagehelper.PageInfo;
-import ${dtoPackage}.${upClassName}Bean;
-import ${formPackage}.${upClassName}Form;
 
-import com.hongen.base.service.BaseService;
-import com.hongen.base.exception.service.ServiceExceptionHandler;
+import com.github.pagehelper.PageInfo;
+import ${basePackageName_base}.service.BaseService;
+import ${basePackageName_base}.exception.service.ServiceExceptionHandler;
+import ${basePackageName_base}.entity.${upClassName};
+import ${basePackageName}.dto.form.${upClassName}Form;
+import ${basePackageName}.dto.${upClassName}Bean;
 
 ${classTitle}
 public interface ${upClassName}Service extends BaseService<${upClassName}, String> {
@@ -30,18 +30,8 @@ public interface ${upClassName}Service extends BaseService<${upClassName}, Strin
      * @param userId
      * @param form
      */
-    void update(String id,String userId, ActivityForm form);
+    void update(String id,String userId, ${upClassName}Form form);
 
-    /**
-     * ${upClassName}状态设置
-     *
-     * @author ${author}
-     * @date ${date}
-     * @param id
-     * @param state
-     * @param userId
-     */
-    void state(String id, String state, String userId);
 
     /**
      * ${upClassName}删除

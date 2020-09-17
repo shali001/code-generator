@@ -1,14 +1,15 @@
 package ${controllerPackage};
 
-import ${dtoPackage}.${upClassName}Bean;
-import ${formPackage}.${upClassName}Form;
-import ${servicePackage}.${upClassName}Service;
+import ${basePackageName_base}.exception.ResultEnums;
+import ${basePackageName_base}.bean.Result;
+import ${basePackageName_base}.exception.BusinessException;
+import ${basePackageName_base}.exception.controller.ControllerExceptionHandler;
+import ${basePackageName_base}.tool.ResultUtil;
+import ${basePackageName_base}.entity.${upClassName};
+import ${basePackageName}.dto.${upClassName}Bean;
+import ${basePackageName}.dto.form.${upClassName}Form;
+import ${basePackageName}.service.${upClassName}Service;
 
-import com.hongen.admin.enums.ResultEnums;
-import com.hongen.base.bean.Result;
-import com.hongen.base.exception.BusinessException;
-import com.hongen.base.exception.controller.ControllerExceptionHandler;
-import com.hongen.base.tool.ResultUtil;
 
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,23 +54,9 @@ public class ${upClassName}Controller extends AbstractController {
      */
     @PutMapping("/v1/info/{id}")
     @ControllerExceptionHandler
-    public Result<String> update(@@PathVariable("id") String id,${upClassName}Form form, HttpServletRequest request) {
+    public Result<String> update(@PathVariable("id") String id,${upClassName}Form form, HttpServletRequest request) {
         String userId = getUserId(request);
         ${lowClassName}Service.update(id,userId, form);
-        return ResultUtil.success(ResultEnums.SUCC_UPDATE);
-    }
-
-    /**
-     * 修改${upClassName}状态
-     *
-     * @author ${author}
-     * @date ${date}
-     */
-    @PutMapping("/v1/info/state/{id}")
-    @ControllerExceptionHandler
-    public Result<String> updateState(@PathVariable("id") String id, @RequestParam String state, HttpServletRequest request) {
-        String userId = getUserId(request);
-        ${lowClassName}Service.state(id, state, userId);
         return ResultUtil.success(ResultEnums.SUCC_UPDATE);
     }
 
@@ -81,7 +68,8 @@ public class ${upClassName}Controller extends AbstractController {
      */
     @DeleteMapping("/v1/info/{id}")
     @ControllerExceptionHandler
-    public Result<String> delete(@PathVariable("id") String id) {
+    public Result<String> delete(@PathVariable("id") String id, HttpServletRequest request) {
+        String userId = getUserId(request);
         ${lowClassName}Service.delete(id);
         return ResultUtil.success(ResultEnums.SUCC_DELETE);
     }

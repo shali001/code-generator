@@ -3,21 +3,24 @@ package ${serviceImplPackage};
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ${entityPackage}.${upClassName};
-import ${dtoPackage}.${upClassName}Bean;
-import ${formPackage}.${upClassName}Form;
-import ${servicePackage}.${upClassName}Service;
+
 
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.hongen.base.service.BaseServiceImpl;
-import com.hongen.base.exception.BusinessException;
-import com.hongen.base.exception.ResultEnums;
-import com.hongen.base.tool.ConvertUtils;
-import com.hongen.base.exception.service.ServiceExceptionHandler;
+import ${basePackageName_base}.service.BaseServiceImpl;
+import ${basePackageName_base}.exception.BusinessException;
+import ${basePackageName_base}.exception.ResultEnums;
+import ${basePackageName_base}.tool.ConvertUtils;
+import cn.hutool.core.util.IdUtil;
+import ${basePackageName_base}.exception.service.ServiceExceptionHandler;
+
+import ${basePackageName_base}.entity.${upClassName};
+import ${basePackageName}.dto.form.${upClassName}Form;
+import ${basePackageName}.dto.${upClassName}Bean;
+import ${basePackageName}.service.${upClassName}Service;
 ${classTitle}
 @Service
 public class ${upClassName}ServiceImpl extends BaseServiceImpl<${upClassName}, String> implements ${upClassName}Service {
@@ -54,16 +57,6 @@ public class ${upClassName}ServiceImpl extends BaseServiceImpl<${upClassName}, S
         //图片处理
     }
 
-    @Override
-    @Transactional
-    @ServiceExceptionHandler
-    public void state(String id, String state, String userId) {
-        ${upClassName} ${lowClassName} = new ${upClassName}();
-        ${lowClassName}.setId(id);
-        ${lowClassName}.setState(state);
-        ${lowClassName}.setUpdateUser(userId);
-        updateByPrimaryKeySelective(${lowClassName});
-    }
 
     @Override
     @Transactional

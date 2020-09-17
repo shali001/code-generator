@@ -3,6 +3,7 @@ package ${formPackage};
 #foreach($ims in $importSets)
 ${ims}
 #end
+import ${basePackageName_base}.entity.${upClassName};
 
 ${classTitle}
 public class ${upClassName}Form{
@@ -15,7 +16,7 @@ public class ${upClassName}Form{
     public ${upClassName}  convertDO() {
         ${upClassName} info=new ${upClassName}();
     #foreach($p in $converts)
-       ${p}
+       ${p};
     #end
         return info;
 	}
