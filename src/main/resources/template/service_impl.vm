@@ -45,7 +45,7 @@ public class ${upClassName}ServiceImpl extends BaseServiceImpl<${upClassName}, S
     @Override
     @Transactional
     @ServiceExceptionHandler
-    public void update(String id,String userId, ${upClassName}Form form) {
+    public void updateSelective(String id,String userId, ${upClassName}Form form) {
         ${upClassName} old = selectByPrimaryKey(id);
         if (old == null) {
             throw new BusinessException(ResultEnums.OBJECT_NOT_EXISTS);
@@ -57,6 +57,23 @@ public class ${upClassName}ServiceImpl extends BaseServiceImpl<${upClassName}, S
         //图片处理
     }
 
+ @Override
+    @Transactional
+    @ServiceExceptionHandler
+    public void updateComplete(String id,String userId, ${upClassName}Form form) {
+        ${upClassName} old = selectByPrimaryKey(id);
+        if (old == null) {
+            throw new BusinessException(ResultEnums.OBJECT_NOT_EXISTS);
+        }
+        ${upClassName} ${lowClassName} = form.convertDO();
+        ${lowClassName}.setId(id);
+        ${lowClassName}.setUpdateTime(new Date());
+        ${lowClassName}.setUpdateUser(userId);
+        ${lowClassName}.setCreateUser(old.getCreateUser());
+        ${lowClassName}.setCreateTime(old.getCreateTime());
+        updateByPrimaryKey(${lowClassName});
+        //图片处理
+    }
 
     @Override
     @Transactional

@@ -30,8 +30,18 @@ public interface ${upClassName}Service extends BaseService<${upClassName}, Strin
      * @param userId
      * @param form
      */
-    void update(String id,String userId, ${upClassName}Form form);
+    void updateSelective(String id,String userId, ${upClassName}Form form);
 
+ /**
+     * ${upClassName}修改
+     *
+     * @author ${author}
+     * @date ${date}
+     * @param id
+     * @param userId
+     * @param form
+     */
+    void updateComplete(String id,String userId, ${upClassName}Form form);
 
     /**
      * ${upClassName}删除

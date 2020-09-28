@@ -54,12 +54,29 @@ public class ${upClassName}Controller extends AbstractController {
      */
     @PutMapping("/v1/info/{id}")
     @ControllerExceptionHandler
-    public Result<String> update(@PathVariable("id") String id,${upClassName}Form form, HttpServletRequest request) {
+    public Result<String> updateSelective(@PathVariable("id") String id,${upClassName}Form form, HttpServletRequest request) {
         String userId = getUserId(request);
-        ${lowClassName}Service.update(id,userId, form);
+        ${lowClassName}Service.updateSelective(id,userId, form);
         return ResultUtil.success(ResultEnums.SUCC_UPDATE);
     }
-
+ /**
+     * 修改${upClassName}
+     *
+     * @author ${author}
+     * @date ${date}
+     */
+    @PutMapping("/v1/info/complete/{id}")
+    @ControllerExceptionHandler
+    public Result<String> updateComplete(@PathVariable("id") String id,@Valid ${upClassName}Form form, BindingResult bindingResult, HttpServletRequest request) {
+         // 表单验证
+         if (bindingResult.hasErrors()) {
+             // 错误信息包装成业务异常抛出
+            throw new BusinessException(ResultEnums.FAILED.getCode(), bindingResult.getFieldError().getDefaultMessage());
+         }
+        String userId = getUserId(request);
+        ${lowClassName}Service.updateComplete(id,userId, form);
+        return ResultUtil.success(ResultEnums.SUCC_UPDATE);
+    }
     /**
      * 删除${upClassName}
      *
